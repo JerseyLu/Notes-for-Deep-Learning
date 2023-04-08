@@ -113,7 +113,7 @@ If the identity mapping f(x)=x is the desired underlying mapping, the residual m
 [^4]:https://arxiv.org/pdf/1502.01852.pdf
 [^5]:https://arxiv.org/pdf/1502.03167.pdf
  
- The code is from a [blog](https://blog.csdn.net/weixin_39524208/article/details/124894216?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522168095565816800182751421%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=168095565816800182751421&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-3-124894216-null-null.142^v82^koosearch_v1,201^v4^add_ask,239^v2^insert_chatgpt&utm_term=Resnet&spm=1018.2226.3001.4187).
+ The code is availa at this [blog](https://blog.csdn.net/weixin_39524208/article/details/124894216?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522168095565816800182751421%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=168095565816800182751421&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-3-124894216-null-null.142^v82^koosearch_v1,201^v4^add_ask,239^v2^insert_chatgpt&utm_term=Resnet&spm=1018.2226.3001.4187).
 
 ```python
 import torch
