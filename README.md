@@ -1,36 +1,40 @@
 # Notes-for-Deep-Learning
+
 This is a personal study note, which includes recent ground-breaking research in the field of deep learning. Individuals who are interested at DL are welcome to discuss and study together.  ps: Only used for personal study!
 
 ## 1. AlexNet
-[AlexNet](https://papers.nips.cc/paper_files/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html) is the name of a convolutional neural network (CNN) architecture, designed by Alex Krizhevsky in collaboration with Ilya Sutskever and Geoffrey Hinton. Alexnet competed in the ImageNet Large Scale Visual Recognition Challenge on 2012. The network achieved a top-5 error of 15.3%, more than 10.8 percentage points lower than that of the runner up. 
+
+[AlexNet](https://papers.nips.cc/paper_files/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html) is the name of a convolutional neural network (CNN) architecture, designed by *Alex Krizhevsky* in collaboration with *Ilya Sutskever* and *Geoffrey Hinton*. Alexnet competed in the ImageNet Large Scale Visual Recognition Challenge on 2012. The network achieved a top-5 error of 15.3%, more than 10.8 percentage points lower than that of the runner up. 
 
 ### The Architecture
 
-* ReLU Function:  
+* ** ReLU Function:**  
 
   In terms of training time with gradient descent, the non-saturating nonlinearity(ReLU) is faster than these saturating nonlinearities(sigmoid, tanh).
 
-* Training on Multiple GPUs:  
+* **Training on Multiple GPUs:**
 
   Alexnet runs on two GPUs. Half of the kernels (or neurons) are handled by each GPU, and the GPUs only communicate at particular layers.
-  
-* Local Response Normalization:
+
+* **Local Response Normalization:**
 
   ReLUs have the desirable property that they do not require input normalization to prevent them from saturating. This sort of response normalization implements a form of lateral inhibition, which can improve the generalization ability of neural networks.
 
-* Overlapping Pooling:
+* **Overlapping Pooling:**
 
   overlapping pooling: Pooling size > stride size
-  
+
   traditional local pooling: Pooling size = stride size
-  
+
   Model with overlapping pooling has a better performance than the traditional local pooling, and can avoid overfitting.
 
 <div align="center">
 <img src="https://user-images.githubusercontent.com/104020492/230723149-71551e46-a06b-4c18-8c00-e7d8d03411e7.png" width="65%" height="40%" />
 </div>
 
+
 The code is from the book--[Dive into Deep Learning](https://d2l.ai/).
+
 ```python
 import time
 import torch
@@ -77,9 +81,11 @@ def forward(self, img):
 ```
 
 ## 2. ResNet
-[ResNet](https://arxiv.org/pdf/1512.03385.pdf) is the name of a residual learning framework, designed by Kaiming He, Xiangyu Zhang, Shaoqing Ren and Jian Sun. ResNet achieved 3.57% error on the ImageNet test set, which won the 1st place on the ILSVRC 2015 classification task. Besides that, it also obtained a 28% relative improvement on the COCO object detection dataset.
+
+[ResNet](https://arxiv.org/pdf/1512.03385.pdf) is the name of a residual learning framework, designed by *Kaiming He*, *Xiangyu Zhang*, *Shaoqing Ren* and *Jian Sun*. ResNet achieved 3.57% error on the ImageNet test set, which won the 1st place on the ILSVRC 2015 classification task. Besides that, it also obtained a 28% relative improvement on the COCO object detection dataset.
 
 ### Purpose: Optimizing the "degradation" problem of deeper neural network
+
 * Previous work:  normalized initialization[^1][^2][^3][^4]; intermediate normalization layers[^5]
 
 * This paper: Residual Building Block
@@ -87,6 +93,7 @@ def forward(self, img):
 <div align="center">
 <img src="https://user-images.githubusercontent.com/104020492/230721790-09f6b67a-9400-4e27-bf63-b55c81b74251.png" width="40%" height="40%" />
 </div>
+
 
 
 Denote the input by x. The desired underlying mapping is f(x), to be used as input to the activation function on the top. 
@@ -100,202 +107,106 @@ If the identity mapping f(x)=x is the desired underlying mapping, the residual m
 <img src="https://user-images.githubusercontent.com/104020492/230722383-884eaaff-71fa-4dde-9248-401e0c772b07.png" width="40%" height="50%" />
 </div>
 
-### The architecture
+
+### The Architecture
 
 <div align="center">
 <img src="https://user-images.githubusercontent.com/104020492/230722972-334438c2-af6a-4583-9d62-ced54af154cf.png" width="40%" height="50%" />
 </div>
 
 
-[^1]:http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf
-[^2]:http://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf
-[^3]:https://arxiv.org/pdf/1312.6120.pdf
-[^4]:https://arxiv.org/pdf/1502.01852.pdf
-[^5]:https://arxiv.org/pdf/1502.03167.pdf
- 
+
+[^1]: http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf
+[^2]: http://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf
+[^3]: https://arxiv.org/pdf/1312.6120.pdf
+[^4]: https://arxiv.org/pdf/1502.01852.pdf
+[^5]: https://arxiv.org/pdf/1502.03167.pdf
+
  The code is available at this [blog](https://blog.csdn.net/weixin_39524208/article/details/124894216?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522168095565816800182751421%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=168095565816800182751421&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-3-124894216-null-null.142^v82^koosearch_v1,201^v4^add_ask,239^v2^insert_chatgpt&utm_term=Resnet&spm=1018.2226.3001.4187).
 
-```python
-import torch
-from torch import nn
-from torch.utils.data import DataLoader
-from torchvision import datasets, utils
-from torchvision.transforms import ToTensor
-import matplotlib.pyplot as plt
-import numpy as np
-from torch.utils.data.dataset import Dataset
-from torchvision.transforms import transforms
-from pathlib import Path
-import cv2
-from PIL import Image
-import torch.nn.functional as F
-%matplotlib inline
-%config InlineBackend.figure_format = 'svg' # 控制显示
-
-
-transform = transforms.Compose([ToTensor(),
-                                transforms.Normalize(
-                                    mean=[0.5,0.5,0.5],
-                                    std=[0.5,0.5,0.5]
-                                ),
-                                transforms.Resize((224, 224))
-                               ])
-
-training_data = datasets.CIFAR10(
-    root="data",
-    train=True,
-    download=True,
-    transform=transform,
-)
-
-testing_data = datasets.CIFAR10(
-    root="data",
-    train=False,
-    download=True,
-    transform=transform,
-)
-
-class BasicBlock(nn.Module):
-    def __init__(self,in_channels,out_channels,stride=[1,1],padding=1) -> None:
-        super(BasicBlock, self).__init__()
-        # 残差部分
-        self.layer = nn.Sequential(
-            nn.Conv2d(in_channels,out_channels,kernel_size=3,stride=stride[0],padding=padding,bias=False),
-            nn.BatchNorm2d(out_channels),
-            nn.ReLU(inplace=True), # 原地替换 节省内存开销
-            nn.Conv2d(out_channels,out_channels,kernel_size=3,stride=stride[1],padding=padding,bias=False),
-            nn.BatchNorm2d(out_channels)
-        )
-
-        # shortcut 部分
-        # 由于存在维度不一致的情况 所以分情况
-        self.shortcut = nn.Sequential()
-        if stride != 1 or in_channels != out_channels:
-            self.shortcut = nn.Sequential(
-                # 卷积核为1 进行升降维
-                nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=stride[0], bias=False),
-                nn.BatchNorm2d(out_channels)
-            )
-
-    def forward(self, x):
-#         print('shape of x: {}'.format(x.shape))
-        out = self.layer(x)
-#         print('shape of out: {}'.format(out.shape))
-#         print('After shortcut shape of x: {}'.format(self.shortcut(x).shape))
-        out += self.shortcut(x)
-        out = F.relu(out)
-        return out
-
-# 采用bn的网络中，卷积层的输出并不加偏置
-class ResNet18(nn.Module):
-    def __init__(self, BasicBlock, num_classes=10) -> None:
-        super(ResNet18, self).__init__()
-        self.in_channels = 64
-        # 第一层作为单独的 因为没有残差快
-        self.conv1 = nn.Sequential(
-            nn.Conv2d(3,64,kernel_size=7,stride=2,padding=3,bias=False),
-            nn.BatchNorm2d(64),
-            nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
-        )
-        # conv2_x
-        self.conv2 = self._make_layer(BasicBlock,64,[[1,1],[1,1]])
-        # self.conv2_2 = self._make_layer(BasicBlock,64,[1,1])
-
-        # conv3_x
-        self.conv3 = self._make_layer(BasicBlock,128,[[2,1],[1,1]])
-        # self.conv3_2 = self._make_layer(BasicBlock,128,[1,1])
-
-        # conv4_x
-        self.conv4 = self._make_layer(BasicBlock,256,[[2,1],[1,1]])
-        # self.conv4_2 = self._make_layer(BasicBlock,256,[1,1])
-
-        # conv5_x
-        self.conv5 = self._make_layer(BasicBlock,512,[[2,1],[1,1]])
-        # self.conv5_2 = self._make_layer(BasicBlock,512,[1,1])
-        self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
-        self.fc = nn.Linear(512, num_classes)
-
-    #这个函数主要是用来，重复同一个残差块
-    def _make_layer(self, block, out_channels, strides):
-        layers = []
-        for stride in strides:
-            layers.append(block(self.in_channels, out_channels, stride))
-            self.in_channels = out_channels
-        return nn.Sequential(*layers)
-    def forward(self, x):
-        out = self.conv1(x)
-        out = self.conv2(out)
-        out = self.conv3(out)
-        out = self.conv4(out)
-        out = self.conv5(out)
-
-#         out = F.avg_pool2d(out,7)
-        out = self.avgpool(out)
-        out = out.reshape(x.shape[0], -1)
-        out = self.fc(out)
-        return out
-    
-# 保持数据集和测试机能完整划分
-batch_size=100
-train_data = DataLoader(dataset=training_data,batch_size=batch_size,shuffle=True,drop_last=True)
-test_data = DataLoader(dataset=testing_data,batch_size=batch_size,shuffle=True,drop_last=True)
-
-images,labels = next(iter(train_data))
-print(images.shape)
-img = utils.make_grid(images)
-img = img.numpy().transpose(1,2,0)
-mean=[0.5,0.5,0.5]
-std=[0.5,0.5,0.5]
-img = img * std + mean
-print([labels[i] for i in range(64)])
-plt.imshow(img)
-
-
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model = res18.to(device)
-cost = torch.nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(model.parameters())
-
-print(len(train_data))
-print(len(test_data))
-epochs = 10
-for epoch in range(epochs):
-    running_loss = 0.0
-    running_correct = 0.0
-    model.train()
-    print("Epoch {}/{}".format(epoch+1,epochs))
-    print("-"*10)
-    for X_train,y_train in train_data:
-        # X_train,y_train = torch.autograd.Variable(X_train),torch.autograd.Variable(y_train)
-        X_train,y_train = X_train.to(device), y_train.to(device)
-        outputs = model(X_train)
-        _,pred = torch.max(outputs.data,1)
-        optimizer.zero_grad()
-        loss = cost(outputs,y_train)
-
-        loss.backward()
-        optimizer.step()
-        running_loss += loss.item()
-        running_correct += torch.sum(pred == y_train.data)
-
-    testing_correct = 0
-    test_loss = 0
-    model.eval()
-    for X_test,y_test in test_data:
-        # X_test,y_test = torch.autograd.Variable(X_test),torch.autograd.Variable(y_test)
-        X_test,y_test = X_test.to(device), y_test.to(device)
-        outputs = model(X_test)
-        loss = cost(outputs,y_test)
-        _,pred = torch.max(outputs.data,1)
-        testing_correct += torch.sum(pred == y_test.data)
-        test_loss += loss.item()
-    print("Train Loss is:{:.4f}, Train Accuracy is:{:.4f}%, Test Loss is::{:.4f} Test Accuracy is:{:.4f}%".format(
-        running_loss/len(training_data), 100*running_correct/len(training_data),
-        test_loss/len(testing_data),
-        100*testing_correct/len(testing_data)
-    ))
-```
 
 ## 3.Transformer
 
 [Transformer](https://arxiv.org/pdf/1706.03762.pdf) is a neutral network, designed by *Ashish Vaswani*, *Noam Shazeer*, *Niki Parmar*, *Jakob Uszkoreit*, *Llion Jones*, *Aidan N. Gomez*, *Łukasz Kaiser* and *Illia Polosukhin*. Transformer learns context and thus meaning by tracking relationships in sequential data like the words in the sentence.
+
+### The Architecture
+
+<div align="center">
+<img src="https://user-images.githubusercontent.com/104020492/230881354-04b00853-31dc-49d3-bfbc-8c534d13250c.png" width="50%" height="50%" />
+</div>
+
+* **Encoder and Decoder stacks**
+
+  **Encoder** is composed of a stack of N=6 identical layers. Each layer has 2 sub-layers. The first is a **multi-head self-attention mechanism**, and the second is a simple, **position-wise fully connected feed-forard network**. A **residual connection** is employed around each of the two sub-layers, followed by **layer-normalization**.
+
+  **Decoder** is also composed of a stack of N=6 identical layers.  In addition to the two sub-layers in each encoder layer, the decoder inserts a third sub-layer, which performs **multi-head attention** over the output of the encoder stack. A **residual connection** is also employed around each of the two sub-layers, followed by **layer-normalization**.
+
+* **Attention**
+
+  An attention function can be described as mapping a query and a set of key-value pairs to an output, where the **query**, **keys**, **values**, and output are all vectors. The output is computed as a weighted sum of the values, where the weight assigned to each value is computed by a compatibility function of the query with the corresponding key. 
+
+  <div align="center">
+  <img src="https://user-images.githubusercontent.com/104020492/230832590-ad9f53c2-94b1-4489-8227-b9c3af266541.png" width="70%" height="70%" />
+  </div>
+
+  * **Scaled Dot-Product Attention**
+
+    The input consists of queries and keys of dimension dk, and values of dimension dv. Computing the dot products of the query with all keys, divide each by pdk, and apply a softmax function to obtain the weights on the values.
+
+  $$
+  Attention(Q,K,V)=softmax(\frac{QK^T}{\sqrt{d_k}})V
+  $$
+
+  * **Multi-Head Attention**
+
+    Multi-head attention allows the model to jointly attend to information from different representation subspaces at different positions. 
+
+    Method: To linearly project the queries, keys and values h times with different, learned linear projections to dk, dk and dv dimensions, respectively.
+
+$$
+\begin{aligned}
+  MultiHead(Q,K,V) &= Concat(head_1,…,head_h)W^O \\
+  where \quad head_i &= Attention(QW_i^Q,KW_i^K,VW_i^V)
+\end{aligned}
+$$
+
+* **Position-wise Feed-Forward Networks**
+
+  In addition to attention sub-layers, each of the layers in encoder and decoder contains a **fully connected feed-forward network**, which is applied to each position separately and identically. This consists of two linear transformations with a **ReLU activation** in between.
+  $$
+  FFN(x)=max(0,xW_1+b_1)W_2+b_2
+  $$
+
+* **Embeddings and Softmax**
+  * Using learned embeddings to convert the input tokens and output tokens to vectors of dimension dmodel.
+  * Using the usual learned linear transformation and softmax function to convert the decoder output to predicted next-token probabilities.
+
+* **Positional Encoding**
+
+  Purpose: To make use of the order of the sequence because this model contains no recurrence and no convolution.
+
+  Solution: Injecting some information about the relative or absolute position of the tokens in the sequence. To this end, adding "positional encodings" to the input embeddings at the bottoms of the encoder and decoder stacks.
+
+  
+
+  ### Highlight
+
+  * Why Layer-Norm instead of Batch-Norm
+
+  <div align="center">
+  <img src="https://user-images.githubusercontent.com/104020492/230881098-380d7ed1-33af-4e3f-80d8-509c68811e43.jpeg" width="50%" height="50%" />
+  </div>
+
+  * Why Self-Attention instead of RNN
+
+  <div align="center">
+  <img src="https://user-images.githubusercontent.com/104020492/230881160-df59e81a-3417-49a6-8e1e-9c27bf624b08.jpeg" width="70%" height="70%" />
+  </div>
+
+  The code is available at [this](https://github.com/tensorflow/tensor2tensor).
+
+  
+
+
+
+
