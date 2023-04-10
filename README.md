@@ -295,3 +295,7 @@ for epoch in range(epochs):
         100*testing_correct/len(testing_data)
     ))
 ```
+
+## 3.Transformer
+
+[Transformer](https://arxiv.org/pdf/1706.03762.pdf) is a neutral network, designed by *Ashish Vaswani*, *Noam Shazeer*, *Niki Parmar*, *Jakob Uszkoreit*, *Llion Jones*, *Aidan N. Gomez*, *Łukasz Kaiser* and *Illia Polosukhin*. Transformer learns context and thus meaning by tracking relationships in sequential data like the words in the sentence.
