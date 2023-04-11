@@ -8,7 +8,7 @@ This is a personal study note, which includes recent ground-breaking research in
 
 ### The Architecture
 
-* ** ReLU Function:**  
+* **ReLU Function:**  
 
   In terms of training time with gradient descent, the non-saturating nonlinearity(ReLU) is faster than these saturating nonlinearities(sigmoid, tanh).
 
