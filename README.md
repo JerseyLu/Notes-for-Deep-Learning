@@ -429,3 +429,4 @@ Schematic for conditioning the information of one node based on three other embe
 </div>
 
 
+You can build Graph Neural Networks on the [TensorFlow platform]（https://github.com/tensorflow/gnn）.
