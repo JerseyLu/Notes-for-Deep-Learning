@@ -1,6 +1,25 @@
 # Notes-for-Deep-Learning
 
-This is a personal study note, which includes recent ground-breaking research in the field of deep learning. Individuals who are interested at DL are welcome to discuss and study together.  ps: Only used for personal study!
+This repository contains my personal notes and summaries on  [DeepLearning.ai](https://deeplearning.ai/) and [D2L](https://d2l.ai/) courses, which includes recent ground-breaking research in the field of deep learning. Individuals who are interested at DL are welcome to discuss and study together.  ps: Only used for personal study!
+
+**Syllabus:**
+
+- [1. AlexNet](#1-alexnet)
+  * [The Architecture](#the-architecture)
+- [2. ResNet](#2-resnet)
+  * [Purpose: Optimizing the "degradation" problem of deeper neural network](#purpose-optimizing-the-degradation-problem-of-deeper-neural-network)
+  * [The Architecture](#the-architecture-1)
+- [3.Transformer](#3transformer)
+  * [The Architecture](#the-architecture-2)
+  * [Highlight](#highlight)
+- [4. GNN](#4-gnn)
+  * [Purpose: exploring and explaining modern graph neural networks](#purpose-exploring-and-explaining-modern-graph-neural-networks)
+  * [What a graph is ?](#what-a-graph-is-)
+  * [Graphs and where to find them](#graphs-and-where-to-find-them)
+  * [What types of problems have graph structured data?](#what-types-of-problems-have-graph-structured-data)
+  * [The challenges of using graphs in machine learning](#the-challenges-of-using-graphs-in-machine-learning)
+  * [Graphs and where to find them](#graphs-and-where-to-find-them)
+
 
 ## 1. AlexNet
 
@@ -209,7 +228,7 @@ $$
 
   A **graph neural network** [(**GNN**)](https://distill.pub/2021/gnn-intro/), designed by *Benjamin Sanchez Lengeling*, *Emily Reif*, *Emily Reif* and *Alexander B. Wiltschko*, is a class of artificial neural networks for processing data that can be represented as graphs.
 
-  ### Purpose:   exploring and explaining modern graph neural networks
+  ### Purpose: exploring and explaining modern graph neural networks
 
   * What kind of data is most naturally phrased as a graph, and some common examples.
   * What makes graphs different from other types of data, and have to specialize.
@@ -310,7 +329,7 @@ $$
     <img src="https://user-images.githubusercontent.com/104020492/231039915-ab4c9a6e-687a-4255-80de-687f37dd6c5f.png" width="76%" height="75%" />
     </div>		
 
-### 		The challenges of using graphs in machine learning
+### The challenges of using graphs in machine learning
 
    * **How we will represent graphs to be compatible with neural networks.**
 
